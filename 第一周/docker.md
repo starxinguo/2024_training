@@ -45,3 +45,5 @@ chmod +x /usr/local/bin/docker-compose
 docker-compose version
 
 ## 1.3 docker相关指令
+docker images  
+展示docker中pull下来的镜像
