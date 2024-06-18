@@ -24,4 +24,4 @@
 error connecting to the database: 'cryptography' package is required for sha256_password or caching_sha2_password auth methods  
 发现是因为mysql需要通过该模块进行身份验证，而python恰好未下载该模块，因此导致mysql无法连接，而后下载好该模块，即完成实验。
 
-## 多线程下载任务
+## 2 多线程下载任务
