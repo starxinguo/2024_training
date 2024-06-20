@@ -2,6 +2,7 @@ import pymysql
 import os
 import json
 import pandas as pd
+import DBConnection
 
 def read_json_file(file_path):
     try:
@@ -16,18 +17,14 @@ def read_json_file(file_path):
         return None
 
 # 连接 MySQL 数据库
-db = pymysql.connect(
-    host='192.168.239.138',
-    user='root',
-    password='123456',
-    port=3306
-)
+db = DBConnection.DBConnection(host='192.168.239.138', user='root', password='123456', port=3306, database='clean')
+db.connect()
 
 # 创建游标对象
-cursor = db.cursor()
+cursor = db
 
 # 切换到 my_database 数据库
-cursor.execute("USE clean")
+
 
 #创建对应的表
 sql = """

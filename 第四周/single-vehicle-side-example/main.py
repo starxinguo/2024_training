@@ -6,16 +6,12 @@ import json
 from pydantic import BaseModel
 import pymysql
 import logging
+import DBConnection
 
 
-# 连接到 MySQL 数据库
-db = pymysql.connect(
-    host='192.168.239.138',
-    user='root',
-    password='123456',
-    port=3306
-)
-cursor = db.cursor()
+db = DBConnection.DBConnection(host='192.168.239.138', user='root', password='123456', port=3306, database='clean')
+db.connect()
+cursor = db
 
 app = FastAPI()
 
@@ -26,7 +22,6 @@ class ImageData(BaseModel):
     label_camera_std_json: str
     label_lidar_std_json: str
 
-cursor.execute("USE clean")
 @app.get("/images/{image_filename}")
 def get_image(image_filename: str):
     """
@@ -51,8 +46,7 @@ def get_image_data_by_filename(image_filename: str):
         WHERE image_path LIKE %s
         """
         image_http_url = f"http://127.0.0.1:8000/images/{image_filename}"
-        cursor.execute(sql, (f"%{image_filename}%",))
-        result = cursor.fetchone()
+        result = cursor.execute_and_fetchone(sql, (f"%{image_filename}%",))
         if result:
             return ImageData(
                 image_path=image_http_url,
